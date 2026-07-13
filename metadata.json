@@ -1,0 +1,6 @@
+{
+  "name": "Stock Survivor: Beat the Market",
+  "description": "Predict, decide, survive, and win in a premium gamified stock trading arena with real-world historical data and AI insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

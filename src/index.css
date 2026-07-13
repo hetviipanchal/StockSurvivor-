@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+@theme {
+  /* Retheme Tailwind variables for native utility classes */
+  --color-black: #f8fafc; /* Slate-50 background */
+  --color-slate-950: #ffffff; /* Pure white for clean surface cards */
+  --color-slate-900: #f1f5f9; /* Slate-100 for secondary panels */
+  
+  /* Retheme Emerald elements to clean, professional light blue */
+  --color-emerald-300: #38bdf8; /* sky-400 */
+  --color-emerald-400: #0284c7; /* sky-600 */
+  --color-emerald-500: #0369a1; /* sky-700 */
+  --color-emerald-600: #075985; /* sky-800 */
+  --color-emerald-700: #0c4a6e; /* sky-900 */
+  
+  /* Retheme dark Slate text elements to highly legible deep navy dark blue */
+  --color-slate-100: #091d3e; /* deep navy-900 */
+  --color-slate-200: #0f2d59; /* deep navy-800 */
+  --color-slate-300: #1e3a6c; /* classic navy-700 */
+  --color-slate-400: #2b4c7e; /* navy-600 */
+  --color-slate-500: #476594; /* muted navy-500 */
+  --color-slate-600: #6b84ab; /* light navy-400 */
+  
+  /* Map gray & zinc variables to navy blue equivalents for comprehensive dark blue coverage */
+  --color-gray-100: #091d3e;
+  --color-gray-200: #0f2d59;
+  --color-gray-300: #1e3a6c;
+  --color-gray-400: #2b4c7e;
+  --color-gray-500: #476594;
+  --color-gray-600: #6b84ab;
+
+  --color-zinc-100: #091d3e;
+  --color-zinc-200: #0f2d59;
+  --color-zinc-300: #1e3a6c;
+  --color-zinc-400: #2b4c7e;
+  --color-zinc-500: #476594;
+  --color-zinc-600: #6b84ab;
+}
+
+/* --- High Legibility & Professional Custom Overrides --- */
+
+/* Root and main background overrides */
+:root {
+  color-scheme: light;
+  --y2k-bg: linear-gradient(135deg, #fdfbff 0%, #eef7ff 34%, #f8f3ff 100%);
+  --y2k-surface: rgba(255, 255, 255, 0.74);
+  --y2k-surface-strong: rgba(255, 255, 255, 0.9);
+  --y2k-border: rgba(255, 255, 255, 0.85);
+  --y2k-primary: #4b7cff;
+  --y2k-accent: #ff8ec4;
+  --y2k-text: #1a2f58;
+  --y2k-muted: #607093;
+  --y2k-shadow: 0 20px 45px rgba(76, 106, 169, 0.14);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--y2k-bg) !important;
+  color: var(--y2k-text) !important;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.95) 0 12%, transparent 32%),
+    radial-gradient(circle at 85% 8%, rgba(123, 164, 255, 0.24) 0 18%, transparent 30%),
+    radial-gradient(circle at 50% 85%, rgba(255, 142, 196, 0.18) 0 20%, transparent 28%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.42) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent 85%);
+}
+
+.min-h-screen.bg-black {
+  background-color: #f0f7ff !important;
+  color: #0f2d59 !important;
+}
+
+/* Direct, aggressive text overrides for all headings, labels, paragraphs, list items and general text elements */
+h1, h2, h3, h4, h5, h6, p, label, li, th, td, blockquote {
+  color: #0f2d59 !important; /* Classic Deep Navy Dark Blue */
+}
+
+/* Overriding direct utility classes for ultimate completeness across all pages/sections */
+.text-slate-100, .text-gray-100, .text-zinc-100 { color: #091d3e !important; }
+.text-slate-200, .text-gray-200, .text-zinc-200 { color: #0f2d59 !important; }
+.text-slate-300, .text-gray-300, .text-zinc-300 { color: #1e3a6c !important; }
+.text-slate-400, .text-gray-400, .text-zinc-400 { color: #2b4c7e !important; }
+.text-slate-500, .text-gray-500, .text-zinc-500 { color: #476594 !important; }
+.text-slate-600, .text-gray-600, .text-zinc-600 { color: #6b84ab !important; }
+
+/* Map generic selection helper */
+::selection {
+  background-color: rgba(2, 132, 199, 0.2) !important;
+  color: #0369a1 !important;
+}
+
+/* Override text-white elements to be deep navy-900 for high visibility on light backgrounds */
+.text-white {
+  color: #091d3e !important;
+}
+
+/* Keep text white on actual dark components or solid primary elements */
+.bg-emerald-500 .text-white,
+.bg-emerald-600 .text-white,
+.bg-emerald-700 .text-white,
+button.bg-emerald-500,
+button.bg-emerald-600,
+button.bg-emerald-700,
+span.bg-emerald-500,
+span.bg-emerald-600,
+.text-emerald-400.bg-emerald-500\/10,
+.text-emerald-400.bg-emerald-500\/5,
+.bg-slate-950 button.bg-emerald-600 span,
+aside button.bg-emerald-600 span,
+aside button.bg-emerald-600 svg,
+nav button.bg-emerald-600,
+.text-xs.font-extrabold.block.leading-tight.text-white,
+.rounded-xl.bg-emerald-600,
+.text-white.bg-emerald-600,
+/* Specific buttons in GameArena */
+button span.text-emerald-400,
+button span.text-rose-400,
+button span.text-slate-300,
+button span.text-slate-500,
+.fixed.inset-0.z-50 button,
+/* Logo icon trending charts */
+.rounded-xl.bg-gradient-to-tr svg,
+.rounded-lg.bg-gradient-to-tr svg {
+  color: #ffffff !important;
+}
+
+/* Deep selector to ensure white text is retained inside solid primary colored backgrounds */
+button.bg-emerald-600 *,
+button.bg-emerald-500 *,
+.bg-emerald-600 *,
+.bg-emerald-500 *,
+.bg-rose-600 *,
+.bg-rose-500 *,
+.bg-rose-600,
+.bg-rose-500 {
+  color: #ffffff !important;
+}
+
+/* Make sure text-white inside buttons stays white */
+button .text-white,
+button span.text-white,
+a .text-white,
+.bg-emerald-600 span {
+  color: #ffffff !important;
+}
+
+/* Clean up card containers and surfaces */
+.bg-slate-950,
+.bg-slate-900,
+.bg-slate-900\/30,
+.bg-slate-950\/40,
+.bg-white,
+.bg-slate-50,
+.bg-slate-100,
+aside.bg-slate-950,
+.fixed .bg-slate-900 {
+  background: linear-gradient(135deg, var(--y2k-surface-strong), rgba(242, 247, 255, 0.8)) !important;
+  color: var(--y2k-text) !important;
+  border-color: var(--y2k-border) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  box-shadow: var(--y2k-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Semi-transparent white containers now become clean light gray/blue panels */
+.bg-white\/5 {
+  background-color: #f8fafc !important; /* light slate-50 */
+  border-color: #e2e8f0 !important;
+  color: #1e3a6c !important;
+}
+
+.bg-white\/10 {
+  background-color: #f1f5f9 !important; /* light slate-100 */
+  border-color: #cbd5e1 !important;
+  color: #0f2d59 !important;
+}
+
+/* Overriding white borders to subtle gray slate borders */
+.border-white\/5,
+.border-white\/10,
+.border-white\/15,
+.border-white\/20,
+.border-white\/30,
+.border-white\/40 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Retheme navigation bar */
+nav.bg-black\/40 {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(241, 247, 255, 0.78)) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 18px 40px rgba(76, 106, 169, 0.12) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+}
+nav.bg-black\/40 .text-white {
+  color: #091d3e !important;
+}
+nav.bg-black\/40 input {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #091d3e !important;
+}
+
+/* Sidebar Specific Styles */
+aside.bg-slate-950 {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(242, 247, 255, 0.78)) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+}
+aside.bg-slate-950 .text-slate-400 {
+  color: #2b4c7e !important;
+}
+aside.bg-slate-950 .text-slate-500 {
+  color: #476594 !important;
+}
+aside.bg-slate-950 button:not(.bg-emerald-600):hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Active sidebar tab */
+aside.bg-slate-950 button.bg-emerald-600 {
+  background-color: #0284c7 !important; /* Sky blue primary */
+  color: #ffffff !important;
+}
+
+/* Specific text items that should not turn dark (like light text in selected list elements) */
+button.bg-emerald-500\/10 span,
+button.bg-emerald-500\/10 p,
+div.bg-emerald-500\/10 span {
+  color: #0284c7 !important;
+}
+
+/* Professional blue badges and backgrounds */
+.bg-emerald-500\/10, .bg-emerald-500\/5, .bg-emerald-500\/20 {
+  background: rgba(75, 124, 255, 0.1) !important;
+  color: var(--y2k-primary) !important;
+  border: 1px solid rgba(75, 124, 255, 0.15) !important;
+}
+
+button.bg-emerald-600,
+button.bg-emerald-500,
+.bg-gradient-to-r.from-blue-600 {
+  background: linear-gradient(135deg, var(--y2k-primary), #62ccff) !important;
+  box-shadow: 0 15px 30px rgba(75, 124, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+}
+
+.text-emerald-400, .text-emerald-500 {
+  color: #0284c7 !important;
+}
+
+/* Custom styles for input controls and dropdowns */
+input, select, textarea {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #091d3e !important;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #0284c7 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15) !important;
+}
+
+/* Modal overlays background */
+.bg-black\/85 {
+  background-color: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Recharts grid line adjustments for light theme */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #e2e8f0 !important;
+}
+.recharts-text {
+  fill: #476594 !important;
+}
+
+/* Candlestick colors: positive green should be a nice emerald, negative red should be rose */
+rect.recharts-rectangle {
+  stroke-width: 1px;
+}
+
+/* Tooltip adjustment */
+.recharts-default-tooltip {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  color: #091d3e !important;
+}
+
+/* Custom scrollbars for light theme */
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgba(9, 29, 62, 0.15);
+  border-radius: 6px;
+}
