@@ -247,8 +247,7 @@ export default function GameArena({
 
       setPrevTrade(newTradeResult);
       setTradeHistory((prev) => {
-        const nextHistory = [newTradeResult, ...prev].slice(0, 4);
-        localStorage.setItem("stock_survivor_trade_history", JSON.stringify(nextHistory));
+const nextHistory = [newTradeResult, ...prev];        localStorage.setItem("stock_survivor_trade_history", JSON.stringify(nextHistory));
         return nextHistory;
       });
       localStorage.setItem("stock_survivor_prev_trade", JSON.stringify(newTradeResult));
@@ -273,13 +272,110 @@ export default function GameArena({
       // Show the requested success popup modal!
       setShowSuccessPopup(true);
 
-    } catch (err) {
-      console.error("Submission failed:", err);
-      setTradeMessage({
-        text: "Could not sync prediction simulation to backend. Using offline calculator.",
-        type: "info",
-      });
-    } finally {
+     } catch (err) {
+  console.error("Submission failed:", err);
+
+  const decisionToSend = selectedDecision || "hold";
+
+  const startPrice = activeStock.prices[5].close;
+  const actualNextDayPrice = activeStock.prices[6].close;
+
+  const priceChange =
+    ((actualNextDayPrice - startPrice) / startPrice) * 100;
+
+  let isCorrect = false;
+  let rewardXP = 50;
+  let outcomeMessage = "";
+
+  if (decisionToSend === "buy") {
+    isCorrect = actualNextDayPrice > startPrice;
+    rewardXP = isCorrect ? 120 : 40;
+    outcomeMessage = isCorrect
+      ? "Great call! The stock increased."
+      : "The stock declined after your BUY.";
+  }
+
+  if (decisionToSend === "sell") {
+    isCorrect = actualNextDayPrice < startPrice;
+    rewardXP = isCorrect ? 120 : 40;
+    outcomeMessage = isCorrect
+      ? "Excellent! Selling avoided the decline."
+      : "The stock went up after your SELL.";
+  }
+
+  if (decisionToSend === "hold") {
+    isCorrect = Math.abs(priceChange) < 3;
+    rewardXP = isCorrect ? 100 : 50;
+    outcomeMessage = isCorrect
+      ? "Good patience! The stock stayed fairly stable."
+      : "The market moved more than expected.";
+  }
+
+  const difference = Math.abs(predictionValue - actualNextDayPrice);
+  const accuracyPercent = Math.max(
+    0,
+    Math.min(100, 100 - (difference / actualNextDayPrice) * 100)
+  );
+
+  let tradeStatus: "PROFIT" | "LOSS" | "HOLD" = "HOLD";
+  let pnlValue = 0;
+  let pnlDisplay = "₹0.00";
+
+  if (decisionToSend === "buy") {
+    pnlValue = actualNextDayPrice - startPrice;
+    tradeStatus = pnlValue > 0 ? "PROFIT" : "LOSS";
+    pnlDisplay = `${pnlValue > 0 ? "+" : ""}₹${pnlValue.toFixed(2)}`;
+  } else if (decisionToSend === "sell") {
+    pnlValue = startPrice - actualNextDayPrice;
+    tradeStatus = pnlValue > 0 ? "PROFIT" : "LOSS";
+    pnlDisplay = `${pnlValue > 0 ? "+" : ""}₹${pnlValue.toFixed(2)}`;
+  }
+
+  const newTradeResult = {
+    stockName: activeStock.name,
+    logo: activeStock.logo,
+    ticker: activeStock.ticker,
+    actualPrice: actualNextDayPrice,
+    predictedPrice: predictionValue,
+    decision: decisionToSend.toUpperCase(),
+    status: tradeStatus,
+    profitAmount: pnlDisplay,
+    accuracy: Math.round(accuracyPercent),
+  };
+
+  setPrevTrade(newTradeResult);
+
+  setTradeHistory((prev) => {
+const nextHistory = [newTradeResult, ...prev];    localStorage.setItem(
+      "stock_survivor_trade_history",
+      JSON.stringify(nextHistory)
+    );
+    return nextHistory;
+  });
+
+  localStorage.setItem(
+    "stock_survivor_prev_trade",
+    JSON.stringify(newTradeResult)
+  );
+
+  setTradeMessage({
+    text: `Offline Mode: ${outcomeMessage}`,
+    type: isCorrect ? "success" : "error",
+  });
+
+  onDecisionSubmitted({
+    isCorrect,
+    xpEarned: rewardXP,
+    coinsEarned: isCorrect ? 50 : 15,
+    decision: decisionToSend,
+    actualPrices: activeStock.prices,
+    aiAnalysis:
+      "Offline Analysis: Your decision was evaluated using historical price movement. This allows the game to work even when the backend is unavailable.",
+    message: outcomeMessage,
+  });
+
+  setShowSuccessPopup(true);
+} finally {
       setIsSubmitting(false);
     }
   };
